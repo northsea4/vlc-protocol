@@ -8,11 +8,16 @@ echo "Input URL: $url"
 url="${url#vlc://}"
 echo "After removing prefix: $url"
 
+# Handle weblink format
+if [[ $url =~ ^weblink/?\?url= ]]; then
+  echo "Detect weblink format"
+  url=${url#"${BASH_REMATCH[0]}"}
 # Fix Chrome 130+ format
-if [[ "$url" =~ ^http// ]]; then
+elif [[ $url =~ ^(https?|ftp|udp|mms|file)// ]]; then
+    protocol=${BASH_REMATCH[1]}
+    echo "Detect unfixed protocol $protocol"
     echo "Fixing Chrome 130+ format"
-    url="${url/http//http://}"
-    url="${url/https//https://}"
+    url="$protocol:${url#$protocol}"
     echo "After fixing: $url"
 fi
 
@@ -21,7 +26,7 @@ url="${url// /%20}"
 echo "Final URL: $url"
 
 # Check protocol
-if [[ ! $url =~ ^https?:// ]]; then
+if [[ ! $url =~ ^(https?|ftp|udp|mms|file):// ]]; then
   echo "protocol not allowed"
   exit 1
 fi

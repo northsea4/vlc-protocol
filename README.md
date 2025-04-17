@@ -48,7 +48,7 @@
 
 ## 安全说明
 
-- 仅支持 http:// 和 https:// 链接
+- 仅支持 http:// 和 https:// 链接, 在Linux上支持ftp:// udp:// mms:// file:// 链接
 - 不支持执行任意命令
 
 ## 致谢
