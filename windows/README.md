@@ -29,7 +29,7 @@
 这种方式不会出现命令行窗口，且性能最好。
 
 #### 直接下载安装
-1. 从 [Releases](https://github.com/northsea4/vlc-protocol/releases/latest) 页面下载最新的 [vlc-protocol-windows-exe.zip](https://github.com/northsea4/vlc-protocol/releases/download/v1.3.2/vlc-protocol-windows-exe.zip) 文件
+1. 从 [Releases](https://github.com/northsea4/vlc-protocol/releases/latest) 页面下载最新的 [vlc-protocol-windows-exe.zip](https://github.com/northsea4/vlc-protocol/releases/latest/download/vlc-protocol-windows-exe.zip) 文件
 2. 将下载的 zip 文件解压后把里面的文件复制到 VLC 安装目录
 3. 以管理员身份运行 `vlc-protocol-register.bat`
 
