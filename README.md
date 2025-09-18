@@ -25,7 +25,7 @@
 ### macOS
 - 支持 macOS 10.15 及以上版本
 - 安装方式：下载压缩包后，解压app目录到`/Applications`下即可
-- 详细说明请查看 [macos/README.md](macos/README.md)
+- 详细说明请查看 [mac/README.md](mac/README.md)
 
 ## 浏览器配置
 
