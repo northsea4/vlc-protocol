@@ -27,6 +27,10 @@
 - 安装方式：下载压缩包后，解压app目录到`/Applications`下即可
 - 详细说明请查看 [mac/README.md](mac/README.md)
 
+### Linux
+- 支持多数 Linux 桌面发行版，例如 Ubuntu、Debian
+- 安装方法请查看 [linux/README.md](linux/README.md)
+
 ## 浏览器配置
 
 ### Firefox
