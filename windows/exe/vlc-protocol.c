@@ -14,28 +14,23 @@
 #define LOG_FILE L"vlc-protocol.log"
 #define MAX_URL 2048
 
-// 检查是否在控制台模式运行
-BOOL is_console_mode() {
-    DWORD processes[2];
-    DWORD num_processes;
-    if (GetConsoleProcessList(processes, 2) > 1) {
-        return TRUE;  // 如果有父控制台进程，说明是从命令行启动的
-    }
-    return FALSE;
-}
+// Global variable: indicates whether the console was successfully attached
+BOOL g_has_console = FALSE;
 
-// 确保有控制台
-void ensure_console() {
-    if (is_console_mode()) {
-        // 已经有控制台，不需要操作
-        return;
-    }
-    
-    // 如果没有控制台，创建一个
-    if (AllocConsole()) {
+// Initialize console
+void init_console() {
+    // Try to attach to the parent process console that launched this program (e.g., CMD, PowerShell, MSYS2 Bash)
+    if (AttachConsole(ATTACH_PARENT_PROCESS)) {
+        g_has_console = TRUE;
+        
+        // Redirect standard output (stdout) and standard error (stderr) to the attached console
         FILE* dummy;
         freopen_s(&dummy, "CONOUT$", "w", stdout);
         freopen_s(&dummy, "CONOUT$", "w", stderr);
+        
+        // Disable stdout buffering to ensure logs are immediately flushed to the terminal
+        setvbuf(stdout, NULL, _IONBF, 0);
+        setvbuf(stderr, NULL, _IONBF, 0);
     }
 }
 
@@ -62,13 +57,14 @@ void log_message(const wchar_t* format, ...) {
     
     FILE* f = _wfopen(log_path, L"a");
     if (f) {
-        fwprintf(f, L"[%s] %s\n", timestamp, message);
+        fwprintf(f, L"[%ls] %ls\n", timestamp, message);
         fclose(f);
     }
     
-    // 如果是控制台模式，也输出到控制台
-    if (is_console_mode()) {
-        wprintf(L"[%s] %s\n", timestamp, message);
+    // If console was attached, output log directly to the terminal
+    if (g_has_console) {
+        wprintf(L"[%ls] %ls\n", timestamp, message);
+        fflush(stdout);
     }
 }
 
@@ -95,7 +91,7 @@ wchar_t* decode_url(const wchar_t* encoded_url) {
 
 // 修复损坏的 URL
 wchar_t* fix_broken_url(wchar_t* url) {
-    log_message(L"Fixing URL: %s", url);
+    log_message(L"Fixing URL: %ls", url);
     
     if (wcsncmp(url, L"http//", 6) == 0) {
         log_message(L"Found broken http URL format");
@@ -103,7 +99,7 @@ wchar_t* fix_broken_url(wchar_t* url) {
         size_t len = wcslen(url);
         memmove(url + 6, url + 5, (len - 5 + 1) * sizeof(wchar_t));  // +1 for null terminator
         url[4] = L':';
-        log_message(L"Fixed http URL: %s", url);
+        log_message(L"Fixed http URL: %ls", url);
     }
     else if (wcsncmp(url, L"https//", 7) == 0) {
         log_message(L"Found broken https URL format");
@@ -111,7 +107,7 @@ wchar_t* fix_broken_url(wchar_t* url) {
         size_t len = wcslen(url);
         memmove(url + 7, url + 6, (len - 6 + 1) * sizeof(wchar_t));  // +1 for null terminator
         url[5] = L':';
-        log_message(L"Fixed https URL: %s", url);
+        log_message(L"Fixed https URL: %ls", url);
     }
     return url;
 }
@@ -122,13 +118,11 @@ BOOL is_valid_url(const wchar_t* url) {
 }
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
-    // 如果是从命令行启动的，确保有控制台输出
-    if (is_console_mode()) {
-        ensure_console();
-    }
+    // Initialize console attachment logic
+    init_console();
     
     log_message(L"Starting VLC Protocol Handler");
-    log_message(L"Command line: %s", pCmdLine);
+    log_message(L"Command line: %ls", pCmdLine);
     
     if (wcslen(pCmdLine) < 10) {
         log_message(L"Error: Command line too short");
@@ -149,7 +143,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     // Remove vlc:// prefix
     if (wcsncmp(url, L"vlc://", 6) == 0) {
         wcscpy(url, url + 6);
-        log_message(L"Removed vlc:// prefix: %s", url);
+        log_message(L"Removed vlc:// prefix: %ls", url);
     }
 
     // Handle weblink format
@@ -157,7 +151,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         wchar_t* weblink_url = wcsstr(url, L"url=");
         if (weblink_url) {
             weblink_url += 4;  // Skip "url="
-            log_message(L"Extracting weblink URL: %s", weblink_url);
+            log_message(L"Extracting weblink URL: %ls", weblink_url);
             
             // URL decode
             wchar_t* decoded = decode_url(weblink_url);
@@ -168,7 +162,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             }
             
             final_url = decoded;
-            log_message(L"Decoded URL: %s", final_url);
+            log_message(L"Decoded URL: %ls", final_url);
         } else {
             log_message(L"Error: Invalid weblink format");
             free(url);
@@ -181,7 +175,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
     // 检查URL合法性
     if (!is_valid_url(final_url)) {
-        log_message(L"Error: Invalid URL: %s", final_url);
+        log_message(L"Error: Invalid URL: %ls", final_url);
         free(final_url);
         return 1;
     }
@@ -201,7 +195,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     }
     wcscat(path, L"\\vlc.exe");
 
-    log_message(L"VLC path: %s", path);
+    log_message(L"VLC path: %ls", path);
 
     // 构建命令行参数
     wchar_t* args = (wchar_t*)malloc(sizeof(wchar_t) * (wcslen(final_url) + 64));
@@ -209,7 +203,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     wcscat(args, final_url);
     wcscat(args, L"\"");
 
-    log_message(L"Arguments: %s", args);
+    log_message(L"Arguments: %ls", args);
 
     // Start vlc.exe
     int ret = (INT_PTR)ShellExecute(NULL, NULL, path, args, NULL, SW_SHOWNORMAL);

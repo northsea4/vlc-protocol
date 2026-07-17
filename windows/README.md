@@ -1,92 +1,94 @@
+English | [简体中文](README.zh-Hans.md)
+
 # VLC Protocol Handler for Windows
 
-这是一个 Windows 下的 VLC 协议处理程序，支持通过点击 `vlc://` 链接来用 VLC 播放视频。
+A VLC protocol handler for Windows that supports opening videos in VLC by clicking `vlc://` links.
 
-## 功能特性
+## Features
 
-- 支持标准格式：`vlc://http://example.com/video.mp4`
-- 支持 Chrome 130+ 格式（自动修复）：`vlc://http//example.com/video.mp4`
-- 支持 weblink 格式：`vlc://weblink?url=http%3A%2F%2Fexample.com%2Fvideo.mp4`
+- Supports standard format: `vlc://http://example.com/video.mp4`
+- Supports Chrome 130+ format (auto-fix): `vlc://http//example.com/video.mp4`
+- Supports weblink format: `vlc://weblink?url=http%3A%2F%2Fexample.com%2Fvideo.mp4`
 
-## 安装方式
+## Installation
 
-### 方式一：PowerShell 脚本安装（推荐）
+### Method 1: PowerShell Script (Recommended)
 
-这种方式安装简单，且不会出现命令行窗口。
+This method is easy to install and does not show a command prompt window.
 
-1. 将 `ps` 目录下的文件复制到 VLC 安装目录（通常是 `C:\Program Files\VideoLAN\VLC`）
-2. 以管理员身份运行 `vlc-protocol-register.ps1`（右键点击文件，选择"以管理员身份运行"）
+1. Copy the files from the `ps` directory to the VLC installation directory (usually `C:\Program Files\VideoLAN\VLC`)
+2. Run `vlc-protocol-register.ps1` as administrator (right-click the file and select "Run as administrator")
 
-### 方式二：批处理脚本安装
+### Method 2: Batch Script
 
-这种方式安装简单，但在点击 `vlc://` 链接时会短暂出现命令行窗口。
+This method is easy to install, but a command prompt window will briefly appear when clicking a `vlc://` link.
 
-1. 将 `bat` 目录下的文件复制到 VLC 安装目录
-2. 以管理员身份运行 `vlc-protocol-register.bat`
+1. Copy the files from the `bat` directory to the VLC installation directory
+2. Run `vlc-protocol-register.bat` as administrator
 
-### 方式三：可执行文件安装
+### Method 3: Executable
 
-这种方式不会出现命令行窗口，且性能最好。
+This method does not show a command prompt window and offers the best performance.
 
-#### 直接下载安装
-1. 从 [Releases](https://github.com/northsea4/vlc-protocol/releases/latest) 页面下载最新的 [vlc-protocol-windows-exe.zip](https://github.com/northsea4/vlc-protocol/releases/latest/download/vlc-protocol-windows-exe.zip) 文件
-2. 将下载的 zip 文件解压后把里面的文件复制到 VLC 安装目录
-3. 以管理员身份运行 `vlc-protocol-register.bat`
+#### Download and Install
+1. Download the latest [vlc-protocol-windows-exe.zip](https://github.com/northsea4/vlc-protocol/releases/latest/download/vlc-protocol-windows-exe.zip) from the [Releases](https://github.com/northsea4/vlc-protocol/releases/latest) page
+2. Extract the downloaded zip file and copy its contents to the VLC installation directory
+3. Run `vlc-protocol-register.bat` as administrator
 
-#### 自行编译
-1. 安装 MinGW-w64 工具链
-   - Windows: 使用 [MSYS2](https://www.msys2.org/) 安装
-   - macOS: 使用 Homebrew 安装 `brew install mingw-w64`
-   - Linux: 使用包管理器安装，如 `sudo apt install gcc-mingw-w64`
-2. 克隆仓库：`git clone https://github.com/northsea4/vlc-protocol.git`
-3. 进入目录：`cd vlc-protocol/windows/exe/`
-4. 编译：`./build.sh`
+#### Build from Source
+1. Install the MinGW-w64 toolchain
+   - Windows: Use [MSYS2](https://www.msys2.org/) to install
+   - macOS: Install via Homebrew `brew install mingw-w64`
+   - Linux: Install via package manager, e.g., `sudo apt install gcc-mingw-w64`
+2. Clone the repository: `git clone https://github.com/northsea4/vlc-protocol.git`
+3. Navigate to the directory: `cd vlc-protocol/windows/exe/`
+4. Build: `./build.sh`
 
-## 测试
+## Testing
 
-1. 打开 `test.html` 文件
-2. 点击测试链接，应用会自动启动 VLC 播放相应的视频
+1. Open the `test.html` file
+2. Click a test link, and VLC should automatically launch to play the corresponding video
 
-## 卸载
+## Uninstallation
 
-### PowerShell 脚本卸载
-以管理员身份运行 `vlc-protocol-deregister.ps1`
+### PowerShell Script
+Run `vlc-protocol-deregister.ps1` as administrator
 
-### 批处理脚本卸载
-以管理员身份运行 `vlc-protocol-deregister.bat`
+### Batch Script
+Run `vlc-protocol-deregister.bat` as administrator
 
-### 可执行文件卸载
-以管理员身份运行 `vlc-protocol-deregister.bat`
+### Executable
+Run `vlc-protocol-deregister.bat` as administrator
 
-## 系统要求
+## System Requirements
 
-- Windows 10 或更高版本
-- VLC media player 2.0.0 或更高版本
+- Windows 10 or later
+- VLC media player 2.0.0 or later
 
-## 故障排除
+## Troubleshooting
 
-如果遇到问题：
+If you encounter issues:
 
-1. 确保以管理员身份运行注册脚本
-2. 检查 VLC 是否已正确安装
-3. PowerShell 版本的日志文件位置：
-   - 正常日志：`%TEMP%\vlc-protocol.log`
-   - 错误日志：`%TEMP%\vlc-protocol-error.log`
-4. 如果链接点击无反应，请检查浏览器是否允许打开外部协议
+1. Make sure to run the registration script as administrator
+2. Verify that VLC is properly installed
+3. Log file locations for the PowerShell version:
+   - Normal log: `%TEMP%\vlc-protocol.log`
+   - Error log: `%TEMP%\vlc-protocol-error.log`
+4. If clicking links has no effect, check if your browser allows opening external protocols
 
-## 安全说明
+## Security
 
-- 程序会验证 URL 格式，只允许 http:// 和 https:// 链接
-- 不支持执行任意命令，仅支持打开视频链接
+- The program validates URL formats and only allows http:// and https:// links
+- Does not support executing arbitrary commands; only supports opening video links
 
-## 开发说明
+## Development Notes
 
-提供了三种实现方式：
-1. PowerShell 脚本（ps）：功能完整，易于维护
-2. 批处理脚本（bat）：简单直接，暂不支持 weblink 格式
-3. 可执行文件（exe）：性能最好，支持 x86_64 和 arm64 架构
+Three implementations are provided:
+1. PowerShell script (ps): Full-featured, easy to maintain
+2. Batch script (bat): Simple and straightforward, does not support weblink format yet
+3. Executable (exe): Best performance, supports x86_64 and arm64 architectures
 
-选择建议：
-- 一般用户：使用 PowerShell 版本
-- 追求性能：使用可执行文件版本
-- 系统兼容性要求高：使用批处理脚本版本
+Recommendations:
+- General users: Use the PowerShell version
+- Performance seekers: Use the executable version
+- High system compatibility needs: Use the batch script version
