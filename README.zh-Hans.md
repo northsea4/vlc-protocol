@@ -32,7 +32,7 @@
 
 ### Linux
 - 支持多数 Linux 桌面发行版，例如 Ubuntu、Debian
-- 安装方法请查看 [linux/README.md](linux/README.md)
+- 安装方法请查看 [linux/README.md](linux/README.zh-Hans.md)
 
 ## 浏览器配置
 
