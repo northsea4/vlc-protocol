@@ -1,68 +1,71 @@
+English | [简体中文](README.zh-Hans.md)
+
 # VLC Protocol Handler
 
-这是一个跨平台的 VLC 协议处理程序，支持通过点击 `vlc://` 链接来用 VLC 播放视频。
+A cross-platform VLC protocol handler that supports opening videos in VLC by clicking `vlc://` links.
 
-## 功能特性
+## Features
 
-- 支持多种 URL 格式：
-  - 标准格式：`vlc://http://example.com/video.mp4`
-  - Chrome 130+ 格式（自动修复）：`vlc://http//example.com/video.mp4`
-  - weblink 格式：`vlc://weblink?url=http%3A%2F%2Fexample.com%2Fvideo.mp4`
-- 跨平台支持：
-  - Windows：支持 PowerShell、批处理和可执行文件三种安装方式
-  - macOS：支持命令行和图形界面安装
+- Supports multiple URL formats:
+  - Standard format: `vlc://http://example.com/video.mp4`
+  - Chrome 130+ format (auto-fix): `vlc://http//example.com/video.mp4`
+  - Weblink format: `vlc://weblink?url=http%3A%2F%2Fexample.com%2Fvideo.mp4`
+- Cross-platform support:
+  - Windows: Supports PowerShell, batch script, and executable installation methods
+  - macOS: Supports command-line and GUI installation
+  - Linux: Supports command-line installation
 
-## 平台支持
+## Platform Support
 
 ### Windows
-- 支持 Windows 10 及以上版本
-- 提供三种安装方式：
-  1. PowerShell 脚本: 推荐
-  2. 批处理脚本：简单直接，暂不支持 weblink 格式
-  3. 可执行文件：性能最佳
-- 详细说明请查看 [windows/README.md](windows/README.md)
+- Supports Windows 10 and above
+- Provides three installation methods:
+  1. PowerShell script: Recommended
+  2. Batch script: Simple and straightforward, does not support weblink format yet
+  3. Executable: Best performance
+- See [windows/README.md](windows/README.md) for detailed instructions
 
 ### macOS
-- 支持 macOS 10.15 及以上版本
-- 安装方式：下载压缩包后，解压app目录到`/Applications`下即可
-- 详细说明请查看 [mac/README.md](mac/README.md)
+- Supports macOS 10.15 and above
+- Installation: After downloading the archive, extract the app directory to `/Applications`
+- See [mac/README.md](mac/README.md) for detailed instructions
 
 ### Linux
-- 支持多数 Linux 桌面发行版，例如 Ubuntu、Debian
-- 安装方法请查看 [linux/README.md](linux/README.md)
+- Supports most Linux desktop distributions, such as Ubuntu, Debian
+- See [linux/README.md](linux/README.md) for installation instructions
 
-## 浏览器配置
+## Browser Configuration
 
 ### Firefox
-1. 打开 `about:config`
-2. 搜索 `network.protocol-handler.expose.vlc`
-3. 创建为布尔值并设置为 `false`
+1. Open `about:config`
+2. Search for `network.protocol-handler.expose.vlc`
+3. Create it as a boolean and set it to `false`
 
 ### Chrome
-- Chrome 130 以前：直接点击链接即可使用
-- Chrome 130 及以后：自动修复新的 URL 格式
+- Chrome 130 and earlier: Click the link directly to use
+- Chrome 130 and later: New URL format is automatically fixed
 
 ### Safari
-- macOS：直接点击链接即可使用
-- 其他平台：不支持
+- macOS: Click the link directly to use
+- Other platforms: Not supported
 
-## 相关项目
+## Related Projects
 
-- [Open with VLC](https://github.com/stefansundin/open-with-vlc) - 浏览器扩展，支持右键菜单打开视频
+- [Open with VLC](https://github.com/stefansundin/open-with-vlc) - Browser extension for opening videos via right-click menu
 
-## 安全说明
+## Security
 
-- 仅支持 http:// 和 https:// 链接, 在Linux上支持ftp:// udp:// mms:// file:// 链接
-- 不支持执行任意命令
+- Only supports http:// and https:// links; on Linux, ftp://, udp://, mms://, and file:// links are also supported
+- Does not support executing arbitrary commands
 
-## 致谢
+## Acknowledgements
 
-本项目基于 [stefansundin/vlc-protocol](https://github.com/stefansundin/vlc-protocol)，感谢原项目开发者的贡献。
+This project is based on [stefansundin/vlc-protocol](https://github.com/stefansundin/vlc-protocol). Thanks to the original project developers for their contributions.
 
-## 贡献
+## Contributing
 
-欢迎提交 Pull Request 或 Issue！
+Pull requests and issues are welcome!
 
-## 许可证
+## License
 
 GPLv3

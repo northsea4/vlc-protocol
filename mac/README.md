@@ -1,58 +1,60 @@
+English | [简体中文](README.zh-Hans.md)
+
 # VLC Protocol Handler for macOS
 
-这是一个macOS下的VLC协议处理程序，支持通过点击 `vlc://` 链接来用VLC播放视频。
+A VLC protocol handler for macOS that supports opening videos in VLC by clicking `vlc://` links.
 
-## 功能特性
+## Features
 
-- 支持标准格式：`vlc://http://example.com/video.mp4`
-- 支持Chrome 130+格式（自动修复）：`vlc://http//example.com/video.mp4`
-- 支持weblink格式：`vlc://weblink?url=http%3A%2F%2Fexample.com%2Fvideo.mp4`
+- Supports standard format: `vlc://http://example.com/video.mp4`
+- Supports Chrome 130+ format (auto-fix): `vlc://http//example.com/video.mp4`
+- Supports weblink format: `vlc://weblink?url=http%3A%2F%2Fexample.com%2Fvideo.mp4`
 
-## 构建和安装
+## Build and Install
 
-构建脚本（`build.sh`）支持以下参数：
+The build script (`build.sh`) supports the following parameters:
 
-参数 | 说明
---- | ---
-`--plist` | 生成新的 Info.plist 文件（如果不需要修改配置，可以不用此参数）
-`--install` | 安装到用户的 Applications 文件夹（~/Applications）
-`--install-to <path>` | 安装到指定目录（比如要安装到系统的 Applications 文件夹）
+| Parameter | Description |
+| --- | --- |
+| `--plist` | Generate a new Info.plist file (can be omitted if configuration does not need changing) |
+| `--install` | Install to the user's Applications folder (~/Applications) |
+| `--install-to <path>` | Install to a specified directory (e.g., to install to the system Applications folder) |
 
-### 构建
+### Build
 
-最简单的构建命令：
+The simplest build command:
 ```bash
 cd mac
 ./build.sh
 ```
 
-### 安装
+### Install
 
-1. 安装到用户的 Applications 文件夹：
+1. Install to the user's Applications folder:
    ```bash
    ./build.sh --install
    ```
 
-2. 安装到系统的 Applications 文件夹：
+2. Install to the system Applications folder:
    ```bash
    ./build.sh --install-to /Applications
    ```
 
-3. 如果需要修改应用配置，可以同时使用 `--plist` 参数：
+3. If you need to modify the app configuration, you can use the `--plist` parameter at the same time:
    ```bash
    ./build.sh --plist --install
    ```
 
-## 首次使用
+## First Use
 
-首次运行时，macOS会询问是否允许打开此应用，选择"打开"即可。
+On first run, macOS will ask whether to allow opening this app. Select "Open" to proceed.
 
-## 测试
+## Testing
 
-1. 打开 `test.html` 文件
-2. 点击测试链接，应用会自动启动VLC播放相应的视频
+1. Open the `test.html` file
+2. Click a test link, and VLC should automatically launch to play the corresponding video
 
-## 系统要求
+## System Requirements
 
-- macOS 10.15 或更高版本
+- macOS 10.15 or later
 - VLC media player
